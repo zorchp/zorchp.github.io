@@ -80,5 +80,5 @@ bundle exec jekyll serve
 
 实际效果的话, 可以看我的主页了:
 
-[Home - Zorch's Blog (apocaly-pse.github.io)](https://apocaly-pse.github.io/);
+[Home - Zorch's Blog (zorchp.github.io)](https://zorchp.github.io/);
 

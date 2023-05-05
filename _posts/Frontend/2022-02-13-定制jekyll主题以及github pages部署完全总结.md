@@ -1,7 +1,6 @@
 ---
 categories: [Frontend]
 tags: [Frontend HTML]
-categories: [Jekyll]
 ---
 
 

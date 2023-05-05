@@ -1,4 +1,5 @@
 ---
+categories: [Linux-Shell]
 tags: Leanote Server Tips
 ---
 

@@ -1,7 +1,6 @@
 ---
 categories: [Frontend]
 tags: Frontend
-categories: [Jekyll]
 ---
 
 # 写在前面
