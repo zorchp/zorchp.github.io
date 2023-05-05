@@ -20,7 +20,7 @@ text_skin: dark # "default" (default), "dark", "forest", "ocean", "chocolate", "
 highlight_theme: tomorrow-night-bright # "default" (default), "tomorrow", "tomorrow-night", "tomorrow-night-eighties", "tomorrow-night-blue", "tomorrow-night-bright"
 url     : # the base hostname & protocol for your site e.g. https://www.someone.com
 baseurl : # does not include hostname
-title   : Zorch's Blog
+title   : Zorch 的博客
 description: > # this means to ignore newlines until "Language & timezone"
   A man who wants to change the world. 
 
@@ -132,7 +132,7 @@ comments:
     repository  : # GitHub repo
     owner       : # GitHub repo owner
     admin: # GitHub repo owner and collaborators, only these guys can initialize GitHub issues, IT IS A LIST.
-      # - your GitHub Id
+    # - your GitHub Id
 
   ## Valine
   # please refer to https://valine.js.org/en/ for more info.
@@ -181,7 +181,9 @@ analytics:
 ##############################
 markdown    : kramdown
 highlighter : rouge
-permalink   : date
+#permalink   : date
+# 添加category内容
+permalink: /:categories/:title/
 
 exclude:
   - CHANGELOG.md
@@ -200,6 +202,14 @@ exclude:
   - /screenshots
   - /test
   - /vendor
+  - .sass-cache/
+  - .jekyll-cache/
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
 
 defaults:
   - scope:
@@ -207,7 +217,7 @@ defaults:
       type: posts
     values:
       layout: article
-      author: zorchp
+      author: zorch
       sharing: true
       license: true
       aside:
@@ -225,4 +235,3 @@ plugins:
   - jekyll-sitemap
   - jemoji
   - jekyll-remote-theme
-  

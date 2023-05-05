@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: page
 titles:
   # @start locale config
   en: &EN About
@@ -28,8 +28,8 @@ key: page-about
 
 I'm Zorch, major in Combinatorics. A big fan to Computer and Computer Science.
 
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script async src="/assets/js/busuanzi.pure.mini.js"></script>
 
 Total <span id="busuanzi_value_site_pv"></span> views.<br />
-您是Zorch的第<span id="busuanzi_value_site_uv"></span>个小伙伴<br />
+您是Zorch的第 <span id="busuanzi_value_site_uv"></span> 个小伙伴<br />
 <span id="busuanzi_value_page_pv"></span> Hits

@@ -1,15 +1,15 @@
 default:
   text_skin: default
   highlight_theme: default
-  lang: en
+  lang: zh
   paths:
     root: /
     home: /
-    archive:  /archive.html
+    archive:  /archive/
     rss:  /feed.xml
-  mathjax: false
+  mathjax: true
   mathjax_autoNumber: false
-  mermaid: false
+  mermaid: true
   chart: false
   toc:
     selectors: 'h1,h2,h3'
