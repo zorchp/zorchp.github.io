@@ -10,7 +10,7 @@ default:
   mathjax: true
   mathjax_autoNumber: false
   mermaid: true
-  chart: false
+  chart: true
   toc:
     selectors: 'h1,h2,h3'
   sources: bootcdn
