@@ -1,7 +1,7 @@
 .search {
-    position: relative;
-    color: black;
-    height: 30px;
+    position: revert;
+    color: orange;
+    height: 350px;
     text-align: right;
     line-height: 30px;
     padding-right: 10px;
@@ -20,15 +20,13 @@
     float: right;
     width: 30%;
     height: 30px;
+    color: orange;
+    background-color: black;
     line-height: 30px;
     margin: 0;
     border: 2px solid #ddd;
     border-radius: 10px;
     box-sizing: border-box;
-}
-/*
-.search .search-clear {
-    display: none;
 }
 
 .search .search-results {
@@ -37,21 +35,34 @@
     position: absolute;
     top: 30px;
     right: 50px;
-    width: 50%;
+    width: 60%;
     max-height: 400px;
     overflow: auto;
     text-align: left;
     border-radius: 5px;
-    background: #ccc;
+/*    background: #ccc;*/
     box-shadow: 0 .3rem .5rem #333;
+}
+.card {
+    max-width: 28rem;
 }
 
 .search .search-results .result-item {
-    background: aqua;
+/*    background: aqua;*/
     color: #000;
     margin: 5px;
     padding: 3px;
+    color: white;
     border-radius: 3px;
     cursor: pointer;
 }
+
+/*
+.search .search-clear {
+    display: none;
+}
+
+
+
+
 */
