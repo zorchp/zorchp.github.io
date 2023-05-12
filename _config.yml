@@ -169,11 +169,11 @@ search:
 ## => Analytics
 ##############################
 analytics:
-  provider: google # false (default), "google", "custom"
+  provider: false # false (default), "google", "custom"
 
-  ## Google Analytics
+  ## Google Analytics, 加上之后访问会变慢
   google:
-    tracking_id : G-W42V3Z2QR6 # Google Analytics id for the site
+    tracking_id :  # Google Analytics id for the site
     anonymize_ip: false # Anonymize IP tracking for Analytics
 
 
