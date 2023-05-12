@@ -5,12 +5,14 @@
  * @todo 多关键词搜索
  */
 
-// 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
+// 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素, 取消搜索
 var elSearchBox = document.querySelector('.search'),
     elSearchBtn = document.querySelector('.search-start'),
     elSearchClear = document.querySelector('.search-clear'),
     elSearchInput = document.querySelector('.search-input'),
-    elSearchResults = document.querySelector('.search-results');
+    elSearchResults = document.querySelector('.search-results'),
+    elSearchCancel = document.querySelector('.search-cancel');
+
 
 // 声明保存文章的标题、链接、内容的数组变量
 var searchValue = '', arrItems = [], arrContents = [], arrLinks = [],
@@ -79,7 +81,7 @@ elSearchInput.onblur = function() { isSearchFocused = false; };
 
 /** 搜索确认 */
 function searchConfirm() {
-  if (elSearchInput.value == '') {
+  if (elSearchInput.value == '') {   
     searchClear();
   } else if (elSearchInput.value.search(/^\s+$/) >= 0) {
     // 检测输入值全是空白的情况
@@ -192,7 +194,7 @@ function searchMatching(arrTitles, arrContents, input) {
     itemDiv.className = 'card hoverable result-item';
     itemTitleDiv.className = 'card-content result-item-title';
     itemDetailDiv.className = 'card-action result-item-detail';
-    itemDetailDivAnchor.className = "blue-text";
+    itemDetailDivAnchor.className = 'blue-text';
 
     itemTitleDiv.innerText = arrTitles[indexItem[i]];
     itemDetailDivAnchor.innerHTML = arrResults[i];
@@ -217,3 +219,15 @@ document.addEventListener('keydown', function(evt) {
         window.isSearchFocused = true;
     }
 });
+
+// 点击主页搜索按钮直接激活光标
+var elIndexSearchBtn = document.getElementsByClassName('button button--secondary button--circle search-button js-search-toggle')[1];
+// console.log(elIndexSearchBtn);
+elIndexSearchBtn.onclick = function() {
+    // console.log(1234556);
+    elSearchInput.focus();
+};
+// 返回主页
+elSearchCancel.onclick=function () {
+     window.location.replace('/');
+};

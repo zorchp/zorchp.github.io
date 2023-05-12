@@ -21,6 +21,7 @@
     width: 30%;
     height: 30px;
     color: orange;
+    caret-color: orangered;
     background-color: black;
     line-height: 30px;
     margin: 0;
@@ -61,8 +62,4 @@
 .search .search-clear {
     display: none;
 }
-
-
-
-
 */
