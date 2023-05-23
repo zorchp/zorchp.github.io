@@ -77,3 +77,30 @@ int select(int nfds, fd_set* readfds, fd_set* write_fds, fd_set* exceptfds, stru
 >   链接：https://www.zhihu.com/question/272447529/answer/1414142223
 >   来源：知乎
 >   著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
+
+
+
+
+# 开发工具的使用
+
+
+
+## git
+
+
+
+### rebase:
+
+>   [关于 Git 变基](https://docs.github.com/zh/get-started/using-git/about-git-rebase)
+
+`git rebase` 命令用于轻松更改一系列提交，修改存储库的历史记录。 您可以重新排序、编辑提交或将提交压缩到一起。
+
+通常，你会使用 `git rebase` 来：
+
+-   编辑之前的提交消息
+-   将多个提交合并为一个
+-   删除或还原不再必要的提交
+
