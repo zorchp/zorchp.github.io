@@ -29,7 +29,7 @@
 - 采用 Python 编写模型框架, 进行数据的爬取/清洗/分析, 熟练掌握了 Python 在数据分析, 深度学习等方面的应用.
 - 论文: [A Data Organization Method for LSTM and Transformer When Predicting Chinese Banking Stock Prices](https://www.hindawi.com/journals/ddns/2022/7119678/).
 
-### Linux 高性能 Web 服务器 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;2023.03~2023.04
+### Linux 高性能 Web 服务器 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;2023.03~2023.05
 
 - 具体功能: 支持一定数量的客户并发访问与响应, 实现用户注册与登录, 增加日志系统, 用 **epoll** 提高并发数量
 - 使用公有云服务器搭建 Web 服务, 熟悉 Linux 下项目构建的基本方法
@@ -45,4 +45,4 @@
 
 - 自学能力强, 善于总结, 喜欢钻研计算机前沿技术, 并在个人博客分享学习经验与心得. 
 - 工程能力强, 善于搭建 Unix/Linux 下各种开发环境, 经常帮助他人解决计算机方面的问题.
-- 具备良好的英文读写能力, 经常在 Stack Overflow 等英文网站上发表内容.
+- 通过CET-6, 具备良好的英文读写能力, 经常在 Stack Overflow 等英文网站上发表内容.
