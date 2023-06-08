@@ -13,10 +13,15 @@ tags: C++ Interview
      >   int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
      >   ```
      >
-     >   会导致注册事件失败, 不触发写回事件, 客户端获取不到数据一直阻塞
+     >   交换第二三参数之后, 会导致注册事件失败, 不触发写回事件, 客户端获取不到数据一直阻塞
 
-2.   html 等资源的路径 使用绝对路径或者 `getcwd` + 字符串拼接
+2.   html 等资源的路径 使用**绝对路径**或者 `getcwd` + 字符串拼接
 
      >   
 
 3.   
+
+
+
+
+
