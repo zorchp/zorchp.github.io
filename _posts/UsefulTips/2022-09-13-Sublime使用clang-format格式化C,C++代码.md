@@ -1,0 +1,490 @@
+---
+categories: [Tips]
+tags: Sublime C++ Tips
+---
+
+# 写在前面
+
+前几天刚吹捧完Astyle这款代码格式化插件, 最近又不得不进行改变了, 原因就是C++20中新增的三路比较运算符, 长这样:`<=>`, 使用Astyle一格式化就变成了:`<= >`, 鉴于这个问题, google也没给出合适的答案, 反而是一个两年前的bug issue还没修复[^1]映入眼帘.. 
+
+不得已, 我关闭了`pad-oper`这个选项, 使得Astyle在格式化C++时候不会在操作符两边填充空格, 但是这就导致了代码比较紧凑, 看来接着用Astyle是不可能了. 
+
+下面还是看看使用mac原生的clang进行代码格式化的操作吧...
+
+
+
+# 安装clang-format
+
+光有xcode的开发者工具还不行, 还要用`brew`安装`llvm`后端支持, 并将其添加到配置文件, 如下:
+
+```bash
+brew install llvm 
+echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+在sublime中调出命令面板(command+shift+P)然后输入`insp`, 输入`clang format`, 回车即可.
+
+# 简单配置
+
+然后就可以开始定制格式了, 具体就是复制default文件到user, 然后修改格式即可, 首先是settings:
+
+```json
+{
+    // This is the path to the binary for clang-format. If it is in your path,
+    // it should just work out-of-the-box. Otherwise, you can set the full path,
+    // which will look like this: 
+    //    "binary": "/path/to/clang/bin/clang-format"
+    // Note that you can set this from within ST directly through the Command
+    // Palette. 
+
+    "binary": "/opt/homebrew/opt/llvm/bin/clang-format",
+
+    // We use the Google style by default. This can be selected from ST using
+    // the Command Palette. Choosing 'Custom' means that the settings will
+    // be loaded from the Sublime Text settings file (which is accessed
+    // from within ST through preferences. Choosing 'File' will look in the 
+    // local directories from a clang-format settings file. See the clang-format
+    // documentation to see how this works. 
+
+    "style": "Custom",
+
+    // Setting this to true will run the formatter on every save. If you want to
+    // only enable this for a given project, try checking out the package
+    // "Project-Specific".
+    
+    "format_on_save": true,
+
+    // If format_on_save is set to true, ClangFormat checks if the current file
+    // has its syntax set to a language in the list below. If it is in the list,
+    // then the file will be formatted by ClangFormat.
+
+    "languages": ["C", "C++", "C++11", "JavaScript", "Objective-C", "Objective-C++"],
+}
+
+```
+
+然后修改`clang_format_custom`文件, 我这里修改了一些诸如tab换为空格, 缩进为4之类的设置, 大家可以根据提示进行设置. 
+
+```json
+{
+    // All these settings have been taken from the clang-format manual, 
+    // and can be customised form within Sublime Text settings files.
+    // Please note, the defaults set below are completely random values.
+    // Take a look at http://clang.llvm.org/docs/ClangFormatStyleOptions.html
+    // For examples.
+
+    // The style used for all options not specifically set in the configuration.
+    // Possible "values":
+    //     LLVM 
+    //     Google 
+    //     Chromium 
+    //     Mozilla 
+    //     WebKit 
+    "BasedOnStyle": "Google",
+    
+    // The extra indent or outdent of access modifiers, e.g. "public":.    
+//  "AccessModifierOffset": 2,
+
+    // If true, horizontally aligns arguments after an open bracket.
+    // This applies to round brackets (parentheses), angle brackets and square brackets.
+    // This will result in formattings like:
+    // Possible values:
+
+    // BAS_Align (in configuration: Align) Align parameters on the open bracket,
+    //  e.g.:
+    // someLongFunction(argument1,
+    //                  argument2);
+    //                  
+    // BAS_DontAlign (in configuration: DontAlign) Don’t align, instead use 
+    // ContinuationIndentWidth, e.g.:
+    // someLongFunction(argument1,
+    //     argument2);
+    //     
+    // BAS_AlwaysBreak (in configuration: AlwaysBreak) Always break after an 
+    // open bracket, if the parameters don’t fit on a single line, e.g.:
+    // someLongFunction(
+    //     argument1, argument2);
+ "AlignAfterOpenBracket": true,
+
+    // If true, aligns consecutive assignments.
+    // This will align the assignment operators of consecutive lines.
+    // This will result in formattings like:
+    //     int aaaa = 12;
+    //     int b    = 23;
+    //     int ccc  = 23;
+//  "AlignConsecutiveAssignments": true,
+
+    // If true, aligns consecutive declarations.
+    // This will align the declaration names of consecutive lines. This will result in formattings like
+    // int         aaaa = 12;
+    // float       b = 23;
+    // std::string ccc = 23;
+"AlignConsecutiveDeclarations": true,
+
+    // If true, aligns escaped newlines as far left as possible. Otherwise puts
+    // them into the right-most column.
+//  "AlignEscapedNewlinesLeft": true,
+
+    // If true, horizontally align operands of binary and ternary expressions.
+// "AlignOperands": true,   
+
+    // If true, aligns trailing comments.
+//  "AlignTrailingComments": true,
+
+    // Allow putting all parameters of a function declaration onto the next line
+    // even if BinPackParameters is false.
+//  "AllowAllParametersOfDeclarationOnNextLine": true,
+
+    // Allows contracting simple braced statements to a single line.
+    // E.g., this allows if (a) { return; } to be put on a single line.
+ "AllowShortBlocksOnASingleLine": true,
+
+    // If true, short case labels will be contracted to a single line.
+ "AllowShortCaseLabelsOnASingleLine": true,
+
+    // Dependent on the value, int f() { return 0; } can be put on a single
+    // line.
+    // Possible values:
+    //     SFS_None   (in "configuration": None) Never merge functions into a
+    //     single line.    
+    //     SFS_Empty (in configuration: Empty) Only merge empty functions.
+    //     SFS_Inline (in "configuration": Inline) Only merge functions defined
+    //     inside a class.
+    //     SFS_All    (in "configuration": All) Merge all functions fitting on a
+    //     single line.
+//  "AllowShortFunctionsOnASingleLine": "None",
+
+    // If true, if (a) return; can be put on a single line.
+//  "AllowShortIfStatementsOnASingleLine": false,
+
+    // If true, while (true) continue; can be put on a single line.
+//  "AllowShortLoopsOnASingleLine": true,
+
+    // The function definition return type breaking style to use.
+    // Possible values:
+    //     DRTBS_None     (in configuration: None) Break after return type automatically.
+    //     PenaltyReturnTypeOnItsOwnLine is taken into account.
+    //     DRTBS_All      (in configuration: All) Always break after the return type.
+    //     DRTBS_TopLevel (in configuration: TopLevel) Always break after the return types
+    //     of top level functions.
+//  "AlwaysBreakAfterDefinitionReturnType": "None",
+//  "AlwaysBreakAfterReturnType": "None",
+
+    // If true, always break before multiline string literals.
+    // This flag is mean to make cases where there are multiple multiline 
+    // strings in a file look more consistent. Thus, it will only take effect 
+    // if wrapping the string at that point leads to it being indented 
+    // ContinuationIndentWidth spaces from the start of the line.
+//  "AlwaysBreakBeforeMultilineStrings": true,
+
+    // If true, always break after the template<...> of a template declaration.
+//  "AlwaysBreakTemplateDeclarations": true,
+
+    // If false, a function call’s arguments will either be all on the same line
+    // or will have one line each.
+//  "BinPackArguments": true,
+
+    // If false, a function call’s or function definition’s parameters will
+    // either all be on the same line or will have one line each.
+//  "BinPackParameters": true,
+
+    // Control of individual brace wrapping cases.
+    // If BreakBeforeBraces is set to custom, use this to specify how each 
+    // individual brace case should be handled. Otherwise, this is ignored.
+    // Nested configuration flags:    
+    // bool AfterClass Wrap class definitions.
+    // bool AfterControlStatement Wrap control statements (if/for/while/switch/..).
+    // bool AfterEnum Wrap enum definitions.
+    // bool AfterFunction Wrap function definitions.
+    // bool AfterNamespace Wrap namespace definitions.
+    // bool AfterObjCDeclaration Wrap ObjC definitions (@autoreleasepool, interfaces, ..).
+    // bool AfterStruct Wrap struct definitions.
+    // bool AfterUnion Wrap union definitions.
+    // bool BeforeCatch Wrap before catch.
+    // bool BeforeElse Wrap before else.
+    // bool IndentBraces Indent the wrapped braces themselves.
+    // bool SplitEmptyFunction If false, empty function body can be put on a single line.
+    // bool SplitEmptyRecord If false, empty record (e.g. class, struct or union) body can be put on a single line.
+    // bool SplitEmptyNamespace If false, empty namespace body can be put on a single line.
+    "BraceWrapping":{
+//        "AfterClass":             false,
+//        "AfterControlStatement":  false,
+//        "AfterEnum":              false,
+//        "AfterFunction":          false,
+//        "AfterNamespace":         false,
+//        "AfterObjCDeclaration":   false,
+//        "AfterStruct":            false,
+//        "AfterUnion":             false,
+//        "BeforeCatch":            false,
+//        "BeforeElse":             false,
+//        "IndentBraces":           false,
+//        "SplitEmptyFunction:"     true,
+//        "SplitEmptyRecord":       true,
+//        "SplitEmptyNamespace":    true
+    },
+
+    // Break after each annotation on a field in Java files.
+// "BreakAfterJavaFieldAnnotations": true,
+
+    // The way to wrap binary operators.
+    // Possible values:
+    // BOS_None (in configuration: None) Break after operators.
+    // BOS_NonAssignment (in configuration: NonAssignment) Break before operators that aren’t assignments.
+    // BOS_All (in configuration: All) Break before operators.
+//  "BreakBeforeBinaryOperators": "None",
+
+    // The brace breaking style to use.
+    // Possible "values":
+    // BS_Attach (in "configuration": Attach) Always attach braces to
+    // surrounding context.
+    // BS_Linux (in "configuration": Linux) Like Attach, but break before braces
+    // on function, namespace and class definitions.
+    // BS_Mozilla (in configuration: Mozilla) Like Attach, but break before 
+    // braces on enum, function, and record definitions.
+    // BS_Stroustrup (in "configuration": Stroustrup) Like Attach, but break
+    // before function definitions.
+    // BS_Allman (in "configuration": Allman) Always break before braces. 
+    // BS_GNU (in "configuration": GNU) Always break before braces and add an extra
+    // level of indentation to braces of control statements, not to those of
+    // class, function or other definitions.
+    // BS_WebKit (in configuration: WebKit) Like Attach, but break before functions.
+    // BS_Custom (in configuration: Custom) Configure each individual brace in 
+    // BraceWrapping.
+//  "BreakBeforeBraces": "Attach",
+
+    // If true, ternary operators will be placed after line breaks.
+//  "BreakBeforeTernaryOperators": true,
+    
+    // Always break constructor initializers before commas and align the commas
+    // with the colon.
+//  "BreakConstructorInitializersBeforeComma": true,
+
+    // The column limit. A column limit of 0 means that there is no column
+    // limit. In this case, clang-format will respect the input’s line breaking
+    // decisions within statements unless they contradict other rules.
+//  "ColumnLimit": 80,
+
+    // A regular expression that describes comments with special meaning, which
+    // should not be split into lines or otherwise changed.
+    // "CommentPragmas": "",
+
+    // If the constructor initializers don’t fit on a line, put each initializer
+    // on its own line.
+//  "ConstructorInitializerAllOnOneLineOrOnePerLine": true,
+
+    // The number of characters to use for indentation of constructor
+    // initializer lists.
+ // "ConstructorInitializerIndentWidth": 4,
+
+    // Indent width for line continuations.
+ // "ContinuationIndentWidth": 4,
+
+    // If true, format braced lists as best suited for C++11 braced lists.
+    // Important "differences": - No spaces inside the braced list. - No line
+    // break before the closing brace. - Indentation with the continuation
+    // indent, not with the block indent. Fundamentally, C++11 braced lists are
+    // formatted exactly like function calls would be formatted in their place.
+    // If the braced list follows a name (e.g. a type or variable name), clang-
+    // format formats as if the {} were the parentheses of a function call with
+    // that name. If there is no name, a zero-length name is assumed.
+//  "Cpp11BracedListStyle": true,
+
+    // If true, analyze the formatted file for the most common alignment of 
+    // & and *. PointerAlignment is then used only as fallback.
+//  "DerivePointerAlignment": true,
+
+    // Disables formatting completely.
+//  "DisableFormat": false,
+
+    // If true, clang-format detects whether function calls and definitions are
+    // formatted with one parameter per line. Each call can be bin-packed, one-
+    // per-line or inconclusive. If it is inconclusive, e.g. completely on one
+    // line, but a decision needs to be made, clang-format analyzes whether
+    // there are other bin-packed cases in the input file and act accordingly.
+    // "NOTE": This is an experimental flag, that might go away or be renamed. Do
+    // not use this in config files, etc. Use at your own risk.
+//  "ExperimentalAutoDetectBinPacking": true,
+
+    // A vector of macros that should be interpreted as foreach loops instead of
+    // as function calls. These are expected to be macros of the "form":
+    // FOREACH(<variable-declaration>, ...)
+    // <loop-body>
+    // In the .clang-format configuration file, this can be configured like:
+    // ForEachMacros: ['RANGES_FOR', 'FOREACH']
+    // For example: BOOST_FOREACH.
+// "ForEachMacros": "['RANGES_FOR', 'FOREACH']" 
+    
+    // Regular expressions denoting the different #include categories used for 
+    // ordering #includes.
+    // These regular expressions are matched against the filename of an include
+    // (including the <> or “”) in order. The value belonging to the first 
+    // matching regular expression is assigned and #includes are sorted first 
+    // according to increasing category number and then alphabetically within 
+    // each category.
+    // If none of the regular expressions match, UINT_MAX is assigned as 
+    // category. The main header for a source file automatically gets 
+    // category 0, so that it is kept at the beginning of the 
+    // #includes (http://llvm.org/docs/CodingStandards.html#include-style).
+    // To configure this in the .clang-format file, use:
+    // IncludeCategories:
+    //   - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
+    //     Priority:        2
+    //   - Regex:           '^(<|"(gtest|isl|json)/)'
+    //     Priority:        3
+    //   - Regex:           '.\*'
+    //     Priority:        1
+// "IncludeCategories": "UINT_MAX"
+
+    // Indent case labels one level from the switch statement. When false, use
+    // the same indentation level as for the switch statement. Switch statement
+    // body is always indented one level more than case labels.
+//  "IndentCaseLabels": true,
+
+    // If true, indent when breaking function declarations which are not also
+    // definitions after the type.
+//  "IndentFunctionDeclarationAfterType": true,
+
+    // The number of columns to use for indentation.
+ "IndentWidth": 4,
+
+    // Indent if a function definition or declaration is wrapped after the type.
+//  "IndentWrappedFunctionNames": true,
+
+    // If true, empty lines at the start of blocks are kept.
+// "KeepEmptyLinesAtTheStartOfBlocks": true,
+
+    // Language, this format style is targeted at. Possible "values": LK_None
+    // (in "configuration": None) Do not use. LK_Cpp (in "configuration": Cpp)
+    // Should be used for C, C++, ObjectiveC, ObjectiveC++. LK_JavaScript (in
+    // "configuration": JavaScript) Should be used for JavaScript. LK_Proto (in
+    // "configuration": Proto) Should be used for Protocol Buffers
+    // ("https"://developers.google.com/protocol-buffers/). 
+//  "Language": "Cpp",
+
+    // A regular expression matching macros that start a block.
+//  MacroBlockBegin: "*_MACRO_START"
+
+    // A regular expression matching macros that end a block.
+//  MacroBlockEnd: "*_MACRO_END",
+
+    // The maximum number of consecutive empty lines to keep.
+ "MaxEmptyLinesToKeep": 2,
+
+    // The indentation used for namespaces.
+    // Possible "values":
+    // NI_None (in "configuration": None) Don’t indent in namespaces.
+    // NI_Inner (in "configuration": Inner) Indent only in inner namespaces
+    // (nested in other namespaces).    
+    // NI_All (in "configuration": All) Indent in all namespaces.
+//  "NamespaceIndentation": "Inner",
+
+    // The number of characters to use for indentation of ObjC blocks.
+//  "ObjCBlockIndentWidth": 4,
+
+    // Add a space after @property in Objective-C, i.e. use @property (readonly)
+    // instead of @property(readonly).    
+//  "ObjCSpaceAfterProperty": false,
+
+    // Add a space in front of an Objective-C protocol list, i.e. use Foo
+    // <Protocol> instead of Foo<Protocol>.    
+//  "ObjCSpaceBeforeProtocolList": false,
+
+    // The penalty for breaking a function call after “call(”.
+//  "PenaltyBreakBeforeFirstCallParameter": 0,
+
+    // The penalty for each line break introduced inside a comment.
+//  "PenaltyBreakComment": 0,
+
+    // The penalty for breaking before the first <<.
+//  "PenaltyBreakFirstLessLess": 0,
+
+    // The penalty for each line break introduced inside a string literal.
+//  "PenaltyBreakString": 0,
+
+    // The penalty for each character outside of the column limit.
+//  "PenaltyExcessCharacter": 0,
+
+    // Penalty for putting the return type of a function onto its own line.
+//  "PenaltyReturnTypeOnItsOwnLine": 0,
+
+    // Pointer and reference alignment style.
+    // Possible values:
+    //     PAS_Left   (in configuration: Left) Align pointer to the left.
+    //     PAS_Right  (in configuration: Right) Align pointer to the right.
+    //     PAS_Middle (in configuration: Middle) Align pointer in the middle.
+//  "PointerAlignment": "Left",
+
+    // If true, a space may be inserted after C style casts.
+// "SpaceAfterCStyleCast": true,
+
+    // If false, spaces will be removed before assignment operators.
+//  "SpaceBeforeAssignmentOperators": true,
+
+    // Defines in which cases to put a space before opening parentheses.
+    // Possible "values":
+    // SBPO_Never (in "configuration": Never) Never put a space before opening
+    // parentheses.
+    // SBPO_ControlStatements (in "configuration": ControlStatements) Put a
+    // space before opening parentheses only after control statement keywords
+    // (for/if/while...).
+    // SBPO_Always (in "configuration": Always) Always put a space before
+    // opening parentheses, except when it’s prohibited by the syntax rules (in
+    // function- like macro definitions) or when determined by other style rules
+    // (after unary operators, opening parentheses, etc.)    
+//  "SpaceBeforeParens": "ControlStatements",
+
+    // If true, spaces may be inserted into ‘()’.
+//  "SpaceInEmptyParentheses": true,
+
+    // The number of spaces before trailing line comments (//-comments). This
+    // does not affect trailing block comments (/**/-comments) as those commonly
+    // have different usage patterns and a number of special cases.
+ "SpacesBeforeTrailingComments": 4,
+
+    // If true, spaces will be inserted after ‘<’ and before ‘>’ in template
+    // argument lists
+//  "SpacesInAngles": true,
+
+    // If true, spaces may be inserted into C style casts.
+//  "SpacesInCStyleCastParentheses": true,
+
+    // If true, spaces are inserted inside container literals (e.g. ObjC and
+    // Javascript array and dict literals).    
+//  "SpacesInContainerLiterals": true,
+
+    // If true, spaces will be inserted after ‘(‘ and before ‘)’.
+//  "SpacesInParentheses": true,
+
+    // If true, spaces will be inserted after ‘[‘ and before ‘]’.
+//  "SpacesInSquareBrackets": true,
+
+    // Format compatible with this standard, e.g. use A<A<int> > instead of
+    // A<A<int>> for LS_Cpp03. Possible "values":
+    // LS_Cpp03 (in "configuration": Cpp03) Use C++03-compatible syntax.
+    // LS_Cpp11 (in "configuration": Cpp11) Use features of C++11 (e.g.
+    // A<A<int>> instead of A<A<int> >).    
+    // LS_Auto (in "configuration": Auto) Automatic detection based on the input.
+//  "Standard": "Cpp03",
+
+    // The number of columns used for tab stops.
+ "TabWidth": 4,
+
+    // The way to use tab characters in the resulting file.
+    // Possible "values":
+    // UT_Never (in "configuration": Never) Never use tab. UT_ForIndentation (in
+    // "configuration": ForIndentation) Use tabs only for indentation. UT_Always
+    // (in "configuration": Always) Use tabs whenever we need to fill whitespace
+    // that spans at least from one tab stop to the next one.
+ "UseTab": "Never"
+}
+
+```
+
+
+
+
+
+# ref
+
+[^1]:[Artistic Style / Bugs / #538 c++20 three way (spaceship) operator (sourceforge.net)](https://sourceforge.net/p/astyle/bugs/538/);

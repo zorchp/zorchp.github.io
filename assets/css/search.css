@@ -1,0 +1,65 @@
+.search {
+  position: revert;
+  color: orange;
+  height: 350px;
+  text-align: right;
+  line-height: 30px;
+  padding-right: 10px;
+}
+
+.search .search-icon {
+  float: right;
+  height: 100%;
+  margin: 0 10px;
+  line-height: 30px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.search .search-input {
+  float: right;
+  width: 30%;
+  height: 30px;
+  color: orange;
+  caret-color: orangered;
+  background-color: black;
+  line-height: 30px;
+  margin: 0;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.search .search-results {
+  display: block;
+  z-index: 1000;
+  position: absolute;
+  top: 30px;
+  right: 50px;
+  width: 60%;
+  max-height: 400px;
+  overflow: auto;
+  text-align: left;
+  border-radius: 5px;
+  /*    background: #ccc;*/
+  box-shadow: 0 0.3rem 0.5rem #333;
+}
+.card {
+  max-width: 60rem;
+}
+
+.search .search-results .result-item {
+  /*    background: aqua;*/
+  color: #000;
+  margin: 5px;
+  padding: 3px;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/*
+.search .search-clear {
+    display: none;
+}
+*/
