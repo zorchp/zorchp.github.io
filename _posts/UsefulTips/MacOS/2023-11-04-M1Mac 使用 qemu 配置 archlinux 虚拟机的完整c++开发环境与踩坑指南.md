@@ -85,6 +85,7 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub -f arch@127.0.0.1
 
 ```bash
 sudo pacman -Sy clang gdb gcc git make cmake vim
+sudo pacman -Sy base-devel # 主要用来构建 aur 包
 ```
 
 
