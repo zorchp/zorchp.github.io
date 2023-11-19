@@ -18,4 +18,4 @@
 
 可以放在任意位置, 执行之后应该就会出现火龙的标志了:
 
-<img src="../../../../../Desktop/%E6%88%AA%E5%B1%8F2023-11-18%2010.04.57.jpg" alt="截屏2023-11-18 10.04.57" style="zoom:50%;" />
+<img src="https://cdn.jsdelivr.net/gh/zorchp/blogimage/%E6%88%AA%E5%B1%8F2023-11-19%2022.20.15.jpg" alt="截屏2023-11-19 22.20.15" style="zoom:50%;" />
