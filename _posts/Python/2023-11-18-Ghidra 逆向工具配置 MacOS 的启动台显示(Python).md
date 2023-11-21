@@ -9,6 +9,8 @@
 
 # 脚本
 
+{% raw %}
+
 ```python
 #!/opt/homebrew/bin/python3
 
@@ -91,6 +93,9 @@ print(f"write info.plist to {target_path}/Info.plist")
 with open(f"{target_path}/Info.plist", "w") as f:
     f.write(info_plist)
 ```
+
+{% endraw %}
+
 
 <script src="https://gist.github.com/zorchp/2f5cba673d7d4e92259f286cdc2174da.js"></script>
 

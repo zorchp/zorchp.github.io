@@ -115,16 +115,28 @@ end
 
 ```
 
+## 编译
+
+```bash
+\ll
+```
+
 
 
 # skim的配置(方法1)
 
 这个方法比较简单,无需配置nvim的服务器实例, 参考[^2].
 
-同步选项, 命令是`custom`(自定), 然后参数为`--headless -c "VimtexInverseSearch %line '%file'"`, 当然前提是要在系统默认的Python环境中安装:
+同步选项, 命令是`custom`(自定), 然后参数为
 
 ```bash
-pip3 install neovim-remote
+--headless -c "VimtexInverseSearch %line '%file'"
+```
+
+当然前提是要在zsh默认的Python环境中安装:
+
+```bash
+python3 -m pip install neovim-remote
 ```
 
 这样的话, 就能完成正反向搜索了, skim通过`command+shift+左键单击`反向跳转到vim, vim通过`\lv`跳转到skim的文章对应位置.
