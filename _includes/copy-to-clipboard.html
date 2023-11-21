@@ -2,7 +2,10 @@
   source0=site.clipboard source1=page.clipboard -%}
 {%- if __return == true -%}
   {%- include clipboard.html -%}
-<script async>
-  {%- include /assets/js/copy-to-clipboard.js -%}
+    <script async
+            src="/assets/js/copy-to-clipboard.js"></script>
+
+<!-- <script async> -->
+<!--   {%- include /assets/js/copy-to-clipboard.js -%} -->
 </script>
 {%- endif -%}
