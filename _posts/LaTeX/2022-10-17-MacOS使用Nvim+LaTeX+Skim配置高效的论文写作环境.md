@@ -117,7 +117,7 @@ end
 
 ## 编译
 
-```bash
+```c
 \ll
 ```
 
@@ -168,10 +168,40 @@ python3 -m pip install neovim-remote
  --servername `cat /tmp/vimtexserver.txt` +"%line" "%file"
 ```
 
+# latexmkrc配置文件
+
+因为每次在文稿开头都要加上
+
+```c
+%!TEX program = xelatex
+```
+
+感觉还是比较麻烦, 这时候可以加上一个配置文件
+
+```c
+#
+# Generel
+#
+
+# Needed for the dot2texi package which invokes GraphViz.
+$latex = 'latex --shell-escape';
+$xelatex = 'xelatex --shell-escape';
+
+# 
+# Mac OS
+#
+# $pdflatex = 'pdflatex -synctex=1 %O %S';
+$xelatex = 'xelatex -synctex=1 %O %S';
+$pdf_previewer = "open -a Skim";
+$clean_ext = "paux lox pdfsync out";
+$pdf_mode = 5;
+$postscript_mode = $dvi_mode = 0;
+```
+
 
 
 # ref
 
 [^1]:[jczhang02/nvim_dots (github.com)](https://github.com/jczhang02/nvim_dots);
-[^2]:[Setup Skim PDF reader with VimTeX in Mac OS | Deepak Ramani (dr563105.github.io)](https://dr563105.github.io/blog/skim-vimtex-setup/);
+[^2]:[Setup Skim PDF reader with VimTeX in Mac OS \| Deepak Ramani (dr563105.github.io)](https://dr563105.github.io/blog/skim-vimtex-setup/);
 [^3]:[Set up Inverse Search for LaTeX with VimTeX and Neovim - jdhao's digital space](https://jdhao.github.io/2021/02/20/inverse_search_setup_neovim_vimtex/);
