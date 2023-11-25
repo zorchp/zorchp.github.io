@@ -1,3 +1,9 @@
+---
+
+---
+
+
+
 下面演示禁用自动升级的正确姿势。首先关闭Chrome浏览器，然后进入目录“/Library/Google/GoogleSoftwareUpdate”
 
 cd /Library/Google/GoogleSoftwareUpdate
@@ -19,3 +25,7 @@ sudo chown root:wheel GoogleSoftwareUpdate
 >   参考:
 >
 >   [Mac Chrome浏览器取消自动升级（看这一篇就够了）_mac google浏览器如何关闭更新提示-CSDN博客](https://blog.csdn.net/CHENYUFENG1991/article/details/78568919);
+
+
+
+并且因为 Microsoft edge 也是基于 Google 的 chromium 内核开发, 所以也继承了自动更新这一恶心的操作, 禁用的方法跟上面类似, 多找找对应的文件即可. 

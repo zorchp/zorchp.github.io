@@ -1,6 +1,6 @@
 ---
 categories: [Tips]
-tags: Linux Tips
+tags: MacOS Linux Tips
 ---
 
 # 写在前面
@@ -28,9 +28,6 @@ tags: Linux Tips
     kMMMMMMMMMMMMMMMMMMMMMMd     GPU: Apple M1
      ;KMMMMMMMWXXWMMMMMMMk.      Memory: 1377MiB / 8192MiB
        .cooc,.    .,coo:.
-
-
-
 
 ```
 

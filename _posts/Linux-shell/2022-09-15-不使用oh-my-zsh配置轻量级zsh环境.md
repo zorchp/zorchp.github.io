@@ -7,7 +7,7 @@ tags: Shell Tips
 
 之前一直在用一款名为oh-my-zsh的插件, 在我的MacOS上, 配置起来主题以及各种插件都比较方便, 但是, 最近在archlinux上面, 我用了omz之后, 速度下降了很多(archlinux虚拟机,还是采用架构虚拟化的方式,在arm上模拟出x86_64), 于是我就想着卸载omz然后直接安装代码补全和高亮插件, 这里参考了一篇国外开发者的博客[^1], 主要用到的插件是:
 
--   [zdharma-zmirror/fast-syntax-highlighting: zdharma mirror of fast-syntax-highlighting (github.com)](https://github.com/zdharma-zmirror/fast-syntax-highlighting);
+-   [zdharma-continuum/fast-syntax-highlighting: Feature-rich syntax highlighting for ZSH](https://github.com/zdharma-continuum/fast-syntax-highlighting);
 -   [zsh-users/zsh-autosuggestions: Fish-like autosuggestions for zsh (github.com)](https://github.com/zsh-users/zsh-autosuggestions);
 -   [zsh-users/zsh-completions: Additional completion definitions for Zsh. (github.com)](https://github.com/zsh-users/zsh-completions);
 
@@ -61,7 +61,7 @@ setopt HIST_FIND_NO_DUPS
 
 ```bash
 cd .zsh/plugins
-git clone git@github.com:zdharma-zmirror/fast-syntax-highlighting.git
+git clone git@github.com:zdharma-continuum/fast-syntax-highlighting.git
 
 git clone git@github.com:zsh-users/zsh-autosuggestions.git
 
@@ -118,9 +118,10 @@ source ~/.zshrc
 由于我没安装主题插件, 这里就通过一行命令配置提示符进行配置, 参考了[^2].
 
 ```bash
-vim .zshrc
-PROMPT=%(?.%F{green}√.%F{red}?%?)%f %B%F{140}%3~%f%b
-source ~/.zshrc
+# prompt
+ZSH_NEWLINE=$'\n'
+export PROMPT=" %F{46}%F %(?.%F{green}√.%F{red}?%?)%f  %B%F{69}%~ ${ZSH_NEWLINE} %F{119}==>%f%b "
+
 ```
 
 # 结果
@@ -136,7 +137,7 @@ source ~/.zshrc
     └── zsh-completions
 ```
 
-![1](https://img-blog.csdnimg.cn/0ed55647e166418fbd9e4e99337f79cc.jpeg#pic_center)
+<img src="https://cdn.jsdelivr.net/gh/zorchp/blogimage/%E6%88%AA%E5%B1%8F2023-11-25%2012.06.39.png" alt="截屏2023-11-25 12.06.39" style="zoom:50%;" />
 
 
 
