@@ -16,7 +16,7 @@
 
 import os
 import re
-import subprocess as sp
+import subprocess as sp  # for get command return value(stdout)
 
 base_path = "/Applications"
 app_name = "Ghidra"
@@ -25,7 +25,7 @@ exec_file = "ghidraRun"
 target_path = f"{base_path}/{app_name}.app/Contents"
 
 if not os.path.exists(target_path):
-    print(f"{target_path} not exists, creating.")
+    print(f"[INFO] {target_path} not exists, creating...")
     cmd = f"mkdir -p {target_path}/{{MacOS,Resources}}"
     os.system(cmd)
 
@@ -45,12 +45,14 @@ _, brew_info = sp.getstatusoutput(f"brew info {app_name}")
 if brew_info.find("Not installed") != -1:
     print(f"{app_name} not installed, install...")
     os.system(f"brew install {app_name}")
-
-version_num = re.match(r"==>.*?(\d+\.\d+\.\d+)[\s,]", brew_info).group(1)
+# print(brew_info)
+# exit()
+version_num = re.match(r"==> ghidra: (\d+\.\d+[,\.]\d+)[\s,]", brew_info).group(1)
 exec_dir = re.findall(r"==> Artifacts\s(.*?)\(Binary", brew_info)[0].strip()
 installed_dir = exec_dir[: exec_dir.rfind("/")]
 img_file = f"{installed_dir}/docs/images/GHIDRA_1.png"
-
+# print(version_num, exec_dir)
+# exit()
 
 # 1. create soft link
 src_exec = f"{brew_prefix}/bin/{exec_file}"
@@ -92,6 +94,8 @@ info_plist = f"""<?xml version="1.0" encoding="UTF-8"?>
 print(f"write info.plist to {target_path}/Info.plist")
 with open(f"{target_path}/Info.plist", "w") as f:
     f.write(info_plist)
+print("[INFO] done")
+
 ```
 
 {% endraw %}
