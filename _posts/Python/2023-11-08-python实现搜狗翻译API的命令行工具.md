@@ -1,3 +1,4 @@
+
 ---
 categories: [Python]
 tags: Python
@@ -103,7 +104,7 @@ https://fanyi.sogou.com/text?keyword=nihao&transfrom=auto
 import re
 import sys
 
-# from urllib.parse import quote
+from urllib.parse import quote # 转换 url 中的特殊字符
 import requests
 from fake_useragent import UserAgent
 from lxml import etree
@@ -176,9 +177,10 @@ def main():
         print("Usage: trans <kwd>")
         exit(-1)
     word = argv[1]
-    if re.match(r"[\u4e00-\u9fa5]", word):
+    word = quote(word)
+    if re.match(r"[\u4e00-\u9fa5]", word[0]):
         chn2eng(word)
-    elif word.isalnum():
+    elif word[0].isalnum():
         eng2chn(argv[1])
     else:
         print("no result...")
@@ -197,7 +199,7 @@ if __name__ == "__main__":
 
 ```bash
 chmod +x crawl-sogou-trans.py
-ln -sf ~/code/py_code/crawl-sogou-trans.py /usr/local/bin/trans
+ln -sf ~/code/py_code/crawl-sogou-trans.py /usr/local/bin/ts
 ```
 
 
@@ -207,7 +209,7 @@ ln -sf ~/code/py_code/crawl-sogou-trans.py /usr/local/bin/trans
 下面做这样几类测试:
 
 ```c
- ==> trans hello
+ ==> ts hello
 你好
 
 英 [həˈləʊ], 美 [həˈloʊ]
@@ -216,7 +218,7 @@ excl. （用于问候、接电话或引起注意）哈罗，喂，你好；（�
 n. “喂”的招呼声；打招呼；问候
 v. 说“喂”；打招呼
      
- ==> trans dns
+ ==> ts dns
 十进位计数制
 
 英 [ˌdiː en ˈes], 美 [ˌdiː en ˈes]
@@ -246,3 +248,6 @@ trajectory  n.弹道；轨道；轨迹；常角轨道；轨线
 ```
 
 这里面每次只能读取前面 5 条, 不过够用了. 
+
+# 一些小问题
+1. 长句翻译不一定有效, 需要加上双引号

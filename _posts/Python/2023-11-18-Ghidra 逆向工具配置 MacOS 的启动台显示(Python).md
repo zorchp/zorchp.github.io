@@ -1,4 +1,6 @@
 ---
+categories: [Python]
+tags: Python Ghidra
 ---
 
 # 写在前面
