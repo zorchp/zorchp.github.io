@@ -32,10 +32,17 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 在 nvim 里面开启 gopls 支持
 
+```bash
+brew install gopls
+go get golang.org/x/tools/gopls@latest
+# vim-go: could not find 'gopls'. Run :GoInstallBinaries to fix it
+```
+
+
+
 测试一下
 
 ```bash
-go run main.go
-
+go run hello.go
 ```
 
