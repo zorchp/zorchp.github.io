@@ -3,7 +3,10 @@ categories: [LaTeX]
 tags: LaTeX Tips
 ---
 
-这里主要给出 vscode 端的配置, 其他的诸如 skim 的跳转等比较 trivial, 不说了. 
+这里主要给出 vscode 端的配置, 其他的诸如 skim 的跳转等比较 trivial, 主要介绍一下快捷键
+
+>   -   skim->vscode: 需要先设置同步规则, 直接选中vscode即可, 快捷键是⌘+⇧+左键单击
+>   -   vscode->skim: ⌘+⌥+j
 
 
 ```json
@@ -109,3 +112,5 @@ tags: LaTeX Tips
 ```
 
 这里面如果用到了 bib, 就走 4 次编译的, 如果没有, 默认 xe 一次即可. 
+
+或者把`latexmk`放在第一项, 就不用每次都切换了. 

@@ -1,5 +1,6 @@
 ---
-
+categories: [VM]
+tags: MacOS VM
 ---
 
 
