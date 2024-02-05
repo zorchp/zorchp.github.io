@@ -1,5 +1,6 @@
 ---
-
+categories: [VM]
+tags: MacOS VM Linux
 ---
 
 
@@ -10,7 +11,7 @@
 
 
 
-### Ubuntu-x86_64-2c4g
+### qemu-Ubuntu-x86_64-2c4g
 
 ```bash
  ==> sysbench cpu --cpu-max-prime=20000000 --threads=2 run
