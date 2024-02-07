@@ -24,7 +24,6 @@ tags: MacOS VM
 1.   [苹果M系列处理器上的Linux虚拟机内Rosetta转译初体验 - wvbCommunity](https://community.wvbtech.com/d/3137);(感觉写的比较详细的博客, 还附了图就很棒)
 2.   [Running Intel Binaries in Linux VMs with Rosetta | Apple Developer Documentation](https://developer.apple.com/documentation/virtualization/running_intel_binaries_in_linux_vms_with_rosetta);
 3.   [Rosetta | UTM Documentation](https://docs.getutm.app/advanced/rosetta/); 这篇算是 utm 支持, 其实很多内容在 Apple 官方的文档有写了
-4.   
 
 
 
@@ -50,11 +49,52 @@ wget https://cdimage.ubuntu.com/releases/22.04/release/ubuntu-22.04.3-live-serve
 
 此外就是选上上面下载好的 ISO 镜像
 
-开启之后按照步骤一点一点来走安装, 如果 utm 显示不好的话可以用 iterm 连接ssh, help 界面给出了秘钥.
+开启之后按照安装步骤一点一点来走安装, 如果 utm 显示不好的话可以用 iterm 连接ssh, help 界面给出了秘钥.
 
 安装之后 poweroff, 然后清除掉 iso, 进入系统. 
 
 ### 配置Rosetta
+
+Debian 系列直接安装:
+
+```bash
+sudo apt install binfmt-support
+sudo apt install spice-vdagent #剪贴板共享
+```
+
+然后挂载
+
+```bash
+sudo mkdir /media/rosetta
+sudo mount -t virtiofs rosetta /media/rosetta
+```
+
+写入`/etc/fstab`: 
+
+```bash
+rosetta	/media/rosetta	virtiofs	ro,nofail	0	0
+```
+
+安装
+
+```bash
+sudo /usr/sbin/update-binfmts --install rosetta /media/rosetta/rosetta \
+     --magic "\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x3e\x00" \
+     --mask "\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff" \
+     --credentials yes --preserve no --fix-binary yes
+```
+
+看看情况:
+
+```bash
+$ cat /proc/sys/fs/binfmt_misc/rosetta
+enabled
+interpreter /mnt/lima-rosetta/rosetta
+flags: OCF
+offset 0
+magic 7f454c4602010100000000000000000002003e00
+mask fffffffffffefe00fffffffffffffffffeffffff
+```
 
 
 
@@ -89,27 +129,103 @@ sudo apt install gcc-multilib-x86-64-linux-gnu g++-multilib-x86-64-linux-gnu
 
 这样只是搞定了交叉编译的工具链, 对于一个 Intel 的程序, 还需要 Intel 的 ld-linux so 库支持, 从阿里云服务器里面 cp 一个, 之后又提示 libc 找不到, 接着 cp, 这样的示例程序就跑起来了.
 
-```bash
+```cpp
+#include <iostream>
 
+int main() {
+    std::cout << "hello rosetta\n";
+    return 0;
+}
 ```
 
+如果要 Rosetta 执行就这样来:
+
+```bash
+x86_64-gnu-linux-g++ a.cpp #交叉编译工具链, 通过apt 安装 gcc-multilib
+/media/rosetta/rosetta ./a.out
+```
+
+>   缺啥动态库就补上
 
 
-来点复杂的例子
 
 ## lima 方案: 快速配置最小化 Linux
 
-
+这里参考了下面的文章. 
 
 >   [在 Apple Silicon macOS 上跑 Linux 虚拟机 + Rosetta - 杰哥的{运维，编程，调板子}小笔记](https://jia.je/software/2023/11/23/apple-silicon-linux-rosetta/#%E5%88%9B%E5%BB%BA-linux-%E8%99%9A%E6%8B%9F%E6%9C%BA);
 
 前面通过 UTM 的方法配置了虚拟化, 并且得到了不错的效果, 下面看看更快速的方法
 
+主要通过 lima 来做, lima 之前安装 docker 时候大家应该不陌生, 因为 docker 的 daemon 用到了colima , 本质上就是一个 Ubuntu 的 arm 版, 但是用 docker 还是有点不舒服, 为什么直接来一个完美的 Intel Linux 呢?
 
+### 安装配置 lima
 
+```bash
+brew install lima
+limactl start template://debian --rosetta --vm-type=vz
+limactl shell debian # 进入 Debian arm
+```
 
+查看 Rosetta 支持情况:
+
+```bash
+$ cat /proc/sys/fs/binfmt_misc/rosetta
+```
+
+### 在 lime-debian 中安装 Intel centos7
+
+其实 nerdctl 跟 docker 差不多, 熟悉一下命令行的操作就好了. 
+
+运行
+
+```bash
+nerdctl run -it --platform amd64 centos:centos7
+```
+
+退出之后就关闭了, 需要 start一下再进去
+
+```bash
+nerdctl start centos-f32d1
+nerdctl exec -it centos-f32d1 /bin/bash
+```
+
+不用了就关闭
+
+```bash
+nerdctl stop centos-f32d1
+```
+
+查看容器情况
+
+```bash
+$ nerdctl ps -a
+CONTAINER ID    IMAGE                               COMMAND        CREATED         STATUS     PORTS    NAMES
+f32d106b5240    docker.io/library/centos:centos7    "/bin/bash"    21 hours ago    Created             centos-f32d1
+```
+
+安装其他软件
+
+```bash
+yum -y install epel-release
+yum repolist
+curl -o /etc/yum.repos.d/konimex-neofetch-epel-7.repo https://copr.fedorainfracloud.org/coprs/konimex/neofetch/repo/epel-7/konimex-neofetch-epel-7.repo
+yum install neofetch
+```
+
+>   [Installation · dylanaraps/neofetch Wiki](https://github.com/dylanaraps/neofetch/wiki/Installation#fedora--rhel--centos--mageia--openmandriva);
+
+neofetch
+
+<img src="/Users/zorch/Desktop/截屏2024-02-04 23.48.02.jpg" style="zoom:37%;" />
 
 ### benchmark
+
+>   ```bash
+>   yum install sysbench
+>   ```
+
+
 
 可喜可贺! M3Pro 加持, 终于跑过阿里云服务器了
 
@@ -187,23 +303,4 @@ Threads fairness:
 
 虽然层层嵌套, 但是得益于 Apple 的虚拟化以及 Rosetta 的转译执行, 其效率还是很高的!!!
 
->   再回头看 qemu 模拟出的 x86_64, 实在是不忍直视. 
-
-下面看看其他情况
-
-```bash
-yum -y install epel-release
-yum repolist
-curl -o /etc/yum.repos.d/konimex-neofetch-epel-7.repo https://copr.fedorainfracloud.org/coprs/konimex/neofetch/repo/epel-7/konimex-neofetch-epel-7.repo
-yum install sysbench neofetch
-```
-
->   [Installation · dylanaraps/neofetch Wiki](https://github.com/dylanaraps/neofetch/wiki/Installation#fedora--rhel--centos--mageia--openmandriva);
-
-
-
-<img src="https://cdn.jsdelivr.net/gh/zorchp/blogimage/%E6%88%AA%E5%B1%8F2024-02-04%2023.48.02.jpg" style="zoom:37%;" />
-
-
-
-然后跑点代码试试
+>   回头看 qemu 模拟出的 x86_64, 实在是不忍直视. 
