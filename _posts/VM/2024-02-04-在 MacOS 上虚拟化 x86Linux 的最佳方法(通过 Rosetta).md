@@ -185,6 +185,8 @@ nerdctl run -it --platform amd64 centos:centos7
 
 退出之后就关闭了, 需要 start一下再进去
 
+>   注意在开启 limactl 时候, **不要挂代理**, 直接退出, 否则进入 lima 之后启动不了 nerdctl 虚拟机
+
 ```bash
 nerdctl start centos-f32d1
 nerdctl exec -it centos-f32d1 /bin/bash
