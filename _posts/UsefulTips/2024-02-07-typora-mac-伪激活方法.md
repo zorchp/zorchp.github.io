@@ -32,7 +32,7 @@ e.hasActivated="true"=="true",
 # 查找
 </body></html>
 # 替换
-</body><script>window.onloaded=function(){setTimeout(()=>{window.close();},5);}</script></html>
+</body><script>window.onload=function(){setTimeout(()=>{window.close();},5);}</script></html>
 ```
 
 修改 Typora 安装目录`\resources\locales\zh-Hans.lproj\Panel.json`
@@ -63,7 +63,7 @@ e.hasActivated="true"=="true",
 # 查找
 </body></html>
 # 替换
-</body><script>window.onloaded=function(){setTimeout(()=>{window.close();},5);}</script></html>
+</body><script>window.onload=function(){setTimeout(()=>{window.close();},5);}</script></html>
 ```
 
 修改 Typora 安装目录 `/Applications/Typora.app/Contents/Resources/zh-Hans.lproj/Panel.strings` 

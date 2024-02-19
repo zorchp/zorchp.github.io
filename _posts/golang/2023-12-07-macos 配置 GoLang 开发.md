@@ -1,5 +1,6 @@
 ---
-
+tags: GoLang
+categories: GoLang
 ---
 
 # 写在前面
