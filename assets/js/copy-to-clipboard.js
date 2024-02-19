@@ -1,59 +1,35 @@
-(function () {
-  var snippets = document.querySelectorAll("pre");
-  [].forEach.call(snippets, function (snippet) {
-    if (snippet.closest(".copyable") !== null) {
-      snippet.firstChild.insertAdjacentHTML(
-        "beforebegin",
-        '<button class="btn" data-clipboard-snippet><i class="far fa-copy"></i></button>',
-      );
-    }
-  });
-  var clipboardSnippets = new ClipboardJS("[data-clipboard-snippet]", {
-    target: function (trigger) {
-      return trigger.nextElementSibling;
-    },
-  });
-  clipboardSnippets.on("success", function (e) {
-    e.clearSelection();
-    showTooltip(e.trigger, "Copied!");
-  });
-  clipboardSnippets.on("error", function (e) {
-    showTooltip(e.trigger, fallbackMessage(e.action));
-  });
+document.addEventListener('DOMContentLoaded', function () {
+	var codeBlocks = document.getElementsByTagName('code');
 
-  var btns = document.querySelectorAll(".btn");
-  for (var i = 0; i < btns.length; i++) {
-    btns[i].addEventListener("mouseleave", clearTooltip);
-    btns[i].addEventListener("blur", clearTooltip);
-    btns[i].addEventListener(
-      "mouseenter",
-      function (e) {
-        showTooltip(e.currentTarget, "copy to clipboard");
-      },
-      false,
-    );
-  }
+	for (var i = 0; i < codeBlocks.length; i++) {
+		var codeBlock = codeBlocks[i];
 
-  function clearTooltip(e) {
-    e.currentTarget.setAttribute("class", "btn");
-    e.currentTarget.removeAttribute("aria-label");
-  }
+		var button = document.createElement('button');
+		button.textContent = 'Copy';
+		button.classList.add('copy-button'); // add CSS class
+		codeBlock.parentNode.insertBefore(button, codeBlock.nextSibling);
 
-  function showTooltip(elem, msg) {
-    elem.setAttribute("class", "btn tooltipped tooltipped-s");
-    elem.setAttribute("aria-label", msg);
-  }
-
-  function fallbackMessage(action) {
-    var actionMsg = "";
-    var actionKey = action === "cut" ? "X" : "C";
-    if (/iPhone|iPad/i.test(navigator.userAgent)) {
-      actionMsg = "No support :(";
-    } else if (/Mac/i.test(navigator.userAgent)) {
-      actionMsg = "Press ⌘-" + actionKey + " to " + action;
-    } else {
-      actionMsg = "Press Ctrl-" + actionKey + " to " + action;
-    }
-    return actionMsg;
-  }
-})();
+		var clipboard = new ClipboardJS(button, {
+			target: function (trigger) {
+				return trigger.previousSibling;
+			}
+		});
+		clipboard.on('success', function (e) {
+			e.clearSelection();
+			var notification = document.createElement('div');
+			notification.textContent = 'Copied!';
+			notification.classList.add('notification');
+			document.body.appendChild(notification);
+			setTimeout(function () {
+				notification.style.opacity = '0';
+				setTimeout(function () {
+					document.body.removeChild(notification);
+				}, 1000);
+			}, 1000);
+			// console.log('已复制到剪贴板:', e.text);
+		});
+		clipboard.on('error', function (e) {
+			console.error('复制失败:', e.action);
+		});
+	}
+});

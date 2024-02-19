@@ -1,6 +1,6 @@
 ---
 categories: [VM]
-tags: MacOS VM
+tags: MacOS VM Linux
 ---
 
 ## 写在前面
