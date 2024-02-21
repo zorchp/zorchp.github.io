@@ -54,14 +54,6 @@ xhr.onreadystatechange = function () {
       arrTitles[i] = arrItems[i]
         .getElementsByTagName("title")[0]
         .childNodes[0].nodeValue.replace(/<.*?>/g, "");
-      // console.log(arrItems[i]);
-      // console.log(arrItems[i].getElementsByTagName('title')[0]);
-      // console.log(arrItems[i].getElementsByTagName('title')[0].childNodes[0]);
-      // console.log(arrItems[i]
-      //                 .getElementsByTagName('title')[0]
-      //                 .childNodes[0]
-      //                 .nodeValue.replace(/<.*?>/g, ''));
-      // console.log(arrTitles[i]);
     }
 
     // 内容加载完毕后显示搜索框
@@ -115,6 +107,7 @@ function searchClear() {
   elSearchClear.style.display = "none";
   elSearchResults.style.display = "none";
   elSearchResults.classList.remove("result-item");
+  $('.js-page-search-modal').hide();
 }
 
 /** 每次搜索完成后的初始化 */
@@ -234,14 +227,19 @@ window.addEventListener("load", searchClear);
 //   }
 // });
 
-// 点击主页搜索按钮直接激活光标
+// 点击主页搜索按钮 然后激活光标
 var elIndexSearchBtn = document.querySelectorAll(".js-search-toggle")[1];
 // console.log(elIndexSearchBtn);
-elIndexSearchBtn.onclick = function () {
-  elSearchInput.focus();
+elIndexSearchBtn.onclick = function (evt) {
+  // var modal = document.querySelector(".modal");
+  // console.log(modal);
+  $('.js-page-search-modal').show();
+  evt.preventDefault();
+  elSearchInput.focus(); // change focus
+  window.isSearchFocused = true;
 };
 
 // back to main page
 elSearchCancel.onclick = function () {
-  $('.modal').hide();//just use once
+  $('.js-page-search-modal').hide(); // TODO: page blink when tap search button twice
 };
