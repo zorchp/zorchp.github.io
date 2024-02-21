@@ -1,7 +1,7 @@
 .search {
   position: revert;
   color: orange;
-  height: 350px;
+  height: 100px;
   text-align: right;
   line-height: 30px;
   padding-right: 10px;
@@ -14,6 +14,10 @@
   line-height: 30px;
   cursor: pointer;
   user-select: none;
+}
+
+.search .search-clear {
+  display: none;
 }
 
 .search .search-input {
@@ -35,9 +39,9 @@
   z-index: 1000;
   position: absolute;
   top: 30px;
-  right: 50px;
+  right: -350px;
   width: 60%;
-  max-height: 400px;
+  max-height: 350px;
   overflow: auto;
   text-align: left;
   border-radius: 5px;
@@ -57,9 +61,3 @@
   border-radius: 3px;
   cursor: pointer;
 }
-
-/*
-.search .search-clear {
-    display: none;
-}
-*/

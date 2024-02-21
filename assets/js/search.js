@@ -10,8 +10,8 @@ var elSearchBox = document.querySelector(".search"),
   elSearchBtn = document.querySelector(".search-start"),
   elSearchClear = document.querySelector(".search-clear"),
   elSearchInput = document.querySelector(".search-input"),
-  elSearchResults = document.querySelector(".search-results"),
-  elSearchCancel = document.querySelector(".search-cancel");
+  elSearchResults = document.querySelector(".search-results");
+elSearchCancel = document.querySelector(".search-cancel");
 
 // 声明保存文章的标题、链接、内容的数组变量
 var searchValue = "",
@@ -33,9 +33,11 @@ var xhr = new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
 xhr.onreadystatechange = function () {
   if (xhr.readyState == 4 && xhr.status == 200) {
     var xml = xhr.responseXML;
-    if (!xml)
+    if (!xml) {
       // xml 验证
+      console.error("not a regular xml file...");
       return;
+    }
 
     arrItems = xml.getElementsByTagName("item");
     itemLength = arrItems.length;
@@ -172,10 +174,10 @@ function searchMatching(arrTitles, arrContents, input) {
       // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
       arrResults.push(
         resultArr[i].slice(resultIndex - step, resultIndex) +
-          "<mark>" +
-          resultArr[i].slice(resultIndex, resultIndex + len) +
-          "</mark>" +
-          resultArr[i].slice(resultIndex + len, resultIndex + len + step)
+        "<mark>" +
+        resultArr[i].slice(resultIndex, resultIndex + len) +
+        "</mark>" +
+        resultArr[i].slice(resultIndex + len, resultIndex + len + step)
       );
     }
   }
@@ -222,26 +224,24 @@ function searchMatching(arrTitles, arrContents, input) {
 
 window.addEventListener("load", searchClear);
 
-// 搜索快捷键
-document.addEventListener("keydown", function (evt) {
-  if (isSearchFocused) return;
-  if (evt.key === "/") {
-    evt.preventDefault();
-    elSearchInput.focus();
-    window.isSearchFocused = true;
-  }
-});
+// // search shortcut
+// document.addEventListener("keydown", function (evt) {
+//   if (isSearchFocused) return;
+//   if (evt.key === "/") {
+//     evt.preventDefault();
+//     elSearchInput.focus();
+//     window.isSearchFocused = true;
+//   }
+// });
 
 // 点击主页搜索按钮直接激活光标
-var elIndexSearchBtn = document.getElementsByClassName(
-  "button button--secondary button--circle search-button js-search-toggle"
-)[1];
+var elIndexSearchBtn = document.querySelectorAll(".js-search-toggle")[1];
 // console.log(elIndexSearchBtn);
 elIndexSearchBtn.onclick = function () {
-  // console.log(1234556);
   elSearchInput.focus();
 };
-// 返回主页
+
+// back to main page
 elSearchCancel.onclick = function () {
-  window.location.replace("/");
+  $('.modal').hide();//just use once
 };
