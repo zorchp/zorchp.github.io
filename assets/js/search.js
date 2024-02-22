@@ -5,13 +5,12 @@
  * @todo 多关键词搜索
  */
 
-// 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素, 取消搜索
+// 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
 var elSearchBox = document.querySelector(".search"),
   elSearchBtn = document.querySelector(".search-start"),
   elSearchClear = document.querySelector(".search-clear"),
   elSearchInput = document.querySelector(".search-input"),
   elSearchResults = document.querySelector(".search-results");
-elSearchCancel = document.querySelector(".search-cancel");
 
 // 声明保存文章的标题、链接、内容的数组变量
 var searchValue = "",
@@ -107,7 +106,6 @@ function searchClear() {
   elSearchClear.style.display = "none";
   elSearchResults.style.display = "none";
   elSearchResults.classList.remove("result-item");
-  $('.js-page-search-modal').hide();
 }
 
 /** 每次搜索完成后的初始化 */
@@ -231,15 +229,8 @@ window.addEventListener("load", searchClear);
 var elIndexSearchBtn = document.querySelectorAll(".js-search-toggle")[1];
 // console.log(elIndexSearchBtn);
 elIndexSearchBtn.onclick = function (evt) {
-  // var modal = document.querySelector(".modal");
-  // console.log(modal);
-  $('.js-page-search-modal').show();
   evt.preventDefault();
   elSearchInput.focus(); // change focus
   window.isSearchFocused = true;
 };
 
-// back to main page
-elSearchCancel.onclick = function () {
-  $('.js-page-search-modal').hide(); // TODO: page blink when tap search button twice
-};
