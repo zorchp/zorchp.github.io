@@ -1,18 +1,17 @@
 ---
-
+categories: [VM]
+tags: MacOS VM
 ---
 
 ## 写在前面
 
-
-
-
+记录一下配置lima 虚拟机时候的一些心得. 
 
 
 
 ## 网络
 
-上回说到, 代理会被自动导入到 lima 的实例中, 怎么取消这个设置呢?看下面的操作
+上回说到, 代理会被自动导入到 lima 的实例中, 怎么取消这个设置呢?即使下面的操作, 也没有效果...
 
 ### 默认配置 yaml
 
@@ -65,5 +64,36 @@ sudo install -o root etc_sudoers.d_lima /etc/sudoers.d/lima
 echo 'export PATH="/opt/homebrew/opt/socket_vmnet/bin:$PATH"' >> ~/.zshrc
 ```
 
-看来没啥用
+看起来只有添加虚拟网络时候才能用到.
+
+## 图形化
+
+>   [在 Linux 中使用 xrdp - Azure Virtual Machines | Microsoft Learn](https://learn.microsoft.com/zh-cn/azure/virtual-machines/linux/use-remote-desktop?tabs=azure-cli);
+
+```bash
+# install
+sudo apt install xfce4 xfce4-goodies xrdp
+#config
+sudo systemctl enable xrdp
+sudo adduser xrdp ssl-cert
+echo xfce4-session >~/.xsession
+sudo service xrdp restart
+```
+
+设置密码
+
+```bash
+sudo passwd <yourname>
+sudo passwd # for root 
+```
+
+连接
+
+注意端口号, 可以通过
+
+```bash
+limactl list
+```
+
+查看映射到本地的端口号即可
 

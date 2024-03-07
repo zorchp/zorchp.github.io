@@ -5,13 +5,13 @@ tags: MacOS VM Kali
 
 # 写在前面
 
+跑一下 arm 架构的 kali Linux 在 MacOS 上使用 qemu 虚拟化和 Apple 虚拟化的 benchmark.
+
+>   结果证明, arm 架构没有明显优势, 但是在qemu 模拟 Intel 架构时候就拉胯很多, 还得是 Rosetta 来转译 Intel
 
 
 
-
-
-
-# qemu 模拟 
+# qemu 模拟
 
 从utm 的虚拟机市场直接安装的, 比较丝滑
 

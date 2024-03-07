@@ -3,7 +3,7 @@ tags: GoLang
 categories: GoLang
 ---
 
-# 写在前面
+## 写在前面
 
 ```bash
 brew install go
