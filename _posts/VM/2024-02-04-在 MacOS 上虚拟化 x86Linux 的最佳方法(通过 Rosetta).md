@@ -206,10 +206,30 @@ CONTAINER ID    IMAGE                               COMMAND        CREATED      
 f32d106b5240    docker.io/library/centos:centos7    "/bin/bash"    21 hours ago    Created             centos-f32d1
 ```
 
+>   podman 类似: (例如 alpine 不支持 containerd, 也就是 nerdctl, 那就只能通过 apk add podman 安装 podman 来完成了)
+>
+>   ```bash
+>   # 初次使用
+>   podman run -it --arch amd64 debian:stable
+>   # 退出之后通过 start开启
+>   podman start xxx
+>   # 之后进入通过 exec 完成
+>   podman exec -it xxx bash
+>   #不用了关闭
+>   podman stop xxx
+>   
+>   #查看容器开启情况
+>   podman ps -a
+>   ```
+
+
+
+下面的操作就在 centos7 里面执行了. 
+
 安装其他软件
 
 ```bash
-yum -y install epel-release
+yum -y install epel-release # 安装其他软件源
 yum repolist
 curl -o /etc/yum.repos.d/konimex-neofetch-epel-7.repo https://copr.fedorainfracloud.org/coprs/konimex/neofetch/repo/epel-7/konimex-neofetch-epel-7.repo
 yum install neofetch
