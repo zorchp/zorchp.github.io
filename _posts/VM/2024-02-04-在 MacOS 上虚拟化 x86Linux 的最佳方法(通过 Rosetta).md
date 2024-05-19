@@ -326,3 +326,82 @@ Threads fairness:
 虽然层层嵌套, 但是得益于 Apple 的虚拟化以及 Rosetta 的转译执行, 其效率还是很高的!!!
 
 >   回头看 qemu 模拟出的 x86_64, 实在是不忍直视. 
+
+
+
+### orbstack benchmark
+
+lima centos 7 with rosetta
+
+```bash
+[root@f32d106b5240 /]# sysbench cpu --cpu-max-prime=20000000 --threads=2 run
+sysbench 1.0.17 (using system LuaJIT 2.0.4)
+
+Running the test with following options:
+Number of threads: 2
+Initializing random number generator from current time
+
+
+Prime numbers limit: 20000000
+
+Initializing worker threads...
+
+Threads started!
+
+CPU speed:
+    events per second:     0.36
+
+General statistics:
+    total time:                          11.0779s
+    total number of events:              4
+
+Latency (ms):
+         min:                                 5322.30
+         avg:                                 5489.98
+         max:                                 5560.35
+         95th percentile:                     5607.61
+         sum:                                21959.92
+
+Threads fairness:
+    events (avg/stddev):           2.0000/0.00
+    execution time (avg/stddev):   10.9800/0.10
+```
+
+orbstack 
+
+```bash
+[root@centos8 dom]# sysbench cpu --cpu-max-prime=20000000 --threads=2 run
+sysbench 1.0.20 (using system LuaJIT 2.1.0-beta3)
+
+Running the test with following options:
+Number of threads: 2
+Initializing random number generator from current time
+
+
+Prime numbers limit: 20000000
+
+Initializing worker threads...
+
+Threads started!
+
+CPU speed:
+    events per second:     0.42
+
+General statistics:
+    total time:                          14.3311s
+    total number of events:              6
+
+Latency (ms):
+         min:                                 4735.80
+         avg:                                 4773.90
+         max:                                 4822.22
+         95th percentile:                     4855.31
+         sum:                                28643.39
+
+Threads fairness:
+    events (avg/stddev):           3.0000/0.00
+    execution time (avg/stddev):   14.3217/0.01
+```
+
+区别不大, 感觉主要是因为一个在 Docker 环境模拟, 一个是直接模拟, 但是易用性这块 orbstack 完胜. 
+
