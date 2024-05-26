@@ -10,14 +10,14 @@
 
 个人版是 free 的, 给 30 天的商业版试用, 30 天之后变成个人版, 没啥区别. 
 
-## 配置开发环境
+## 配置amd开发环境
 
 先装个 Ubuntu, 勾选 intel , 默认采用 Rosetta 转译执行. 
 
 安装一些包:
 
 ```bash
-sudo apt install gcc g++ gdb nasm make neofetch llvm lldb clang gcc-multilib
+sudo apt install gcc g++ gdb nasm man make neofetch llvm lldb clang gcc-multilib
 ```
 
 
@@ -36,3 +36,23 @@ sudo apt install gcc g++ gdb nasm make neofetch llvm lldb clang gcc-multilib
 2.   
 
 3.   
+
+
+
+## 配置 arm 开发环境
+
+由于 MacOS 没法直接安装 gnu-as, 这里再创建一个 arm 的 Ubuntu, 使用起来也是很方便, 而且调试之类的也不在话下
+
+
+
+```bash
+sudo apt install gcc g++ gdb man make
+```
+
+as就包含在 binutils 里面, 所以安装了之后已经含有了
+
+```c
+$ as -v
+GNU assembler version 2.41 (aarch64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.41
+```
+
