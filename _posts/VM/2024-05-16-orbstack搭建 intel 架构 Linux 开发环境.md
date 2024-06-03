@@ -33,6 +33,8 @@ sudo apt install gcc g++ gdb nasm man make neofetch llvm lldb clang gcc-multilib
      Couldn't get CS register: Input/output error.
      ```
 
+     更新: 看文档[Linux machines · OrbStack Docs](https://docs.orbstack.dev/machines/#debugging-with-gdb-lldb); 提到了使用 qemu 以及远程调试就可以了
+     
 2.   
 
 3.   
