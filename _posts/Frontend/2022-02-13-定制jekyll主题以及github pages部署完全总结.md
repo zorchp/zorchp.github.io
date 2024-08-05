@@ -1,6 +1,6 @@
 ---
 categories: [Frontend]
-tags: [Frontend HTML]
+tags: Frontend
 ---
 
 
