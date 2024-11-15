@@ -73,7 +73,7 @@ git clone git@github.com:zsh-users/zsh-completions.git
 在`.zshrc`中添加:
 
 ```bash
-source $ZSH/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source $ZSH/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh #这个插件对于 man 会有影响, 而且已经不维护了, 就用最新的方式了
 fpath=($ZSH/plugins/zsh-completions/src $fpath)
 
 # zsh-autosuggestions:config
@@ -84,6 +84,30 @@ ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 
 # end config
 ```
+
+> 上面是采用源码方式安装, 对于离线机器来说可以打包安装, 但是最新的话可以用 brew 的方式:
+>
+> ```bash
+> brew install zsh-autosuggestions zsh-completions zsh-syntax-highlighting
+> ## config new:
+> source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+> 
+> if type brew &>/dev/null; then
+>     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+> 
+>     autoload -Uz compinit
+>     compinit
+> fi
+> 
+> # zsh-autosuggestions:config
+> source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+> ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
+> ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+> ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+> 
+> ```
+>
+> 可能会有一些 warning, 通过 brew info xx 查看具体的修复方式即可
 
 # 链接
 
