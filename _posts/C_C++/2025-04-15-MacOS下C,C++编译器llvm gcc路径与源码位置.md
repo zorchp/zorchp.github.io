@@ -1,6 +1,6 @@
 ---
-categories: [C_C++]
-tags: C++
+categories: [C_C++,llvm,gcc]
+tags: C++, llvm,gcc
 ---
 
 # 写在前面
@@ -474,3 +474,11 @@ tags: C++
 /Library/Developer/CommandLineTools/usr/include/bits
 ```
 
+## linux 下的 clang
+```bash
+clang -v
+$HOME/local/opt/clang15/bin
+vi ../include/c++/v1/bits/stdc++.h
+# in vim:
+:!mkdir %:h
+```
