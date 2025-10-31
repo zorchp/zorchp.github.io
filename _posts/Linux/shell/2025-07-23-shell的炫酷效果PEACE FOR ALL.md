@@ -1,5 +1,6 @@
 ---
-
+categories: [Linux-Shell]
+tags: Linux Tips Config
 ---
 
 
