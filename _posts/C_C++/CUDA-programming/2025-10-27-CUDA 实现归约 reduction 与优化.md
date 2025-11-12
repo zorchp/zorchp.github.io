@@ -242,3 +242,25 @@ cpu(float) timecost:33.78500ms output:-12774.21582
 diff between gpu and cpu(double): 0.00618
 ```
 
+
+
+## CUDA C权威指南中的实现
+
+```cpp
+```
+
+
+
+```cpp
+./reduceInteger starting reduction at device 0: Tesla T4     with array size 4194304  grid 32768 block 128
+cpu reduce          : 534907410
+reduceNeighboredGmem: 534907410 <<<grid 32768 block 128>>> tc:4.27110ms
+reduceNeighboredSmem: 534907410 <<<grid 32768 block 128>>> tc:4.26064ms
+reduceGmem          : 534907410 <<<grid 32768 block 128>>> tc:4.18643ms
+reduceSmem          : 534907410 <<<grid 32768 block 128>>> tc:3.91840ms
+reduceSmemDyn       : 534907410 <<<grid 32768 block 128>>> tc:3.74848ms
+reduceGmemUnroll4   : 534907410 <<<grid 8192 block 128>>> tc:3.65165ms
+reduceSmemUnroll4   : 534907410 <<<grid 8192 block 128>>> tc:3.63258ms
+reduceSmemDynUnroll4: 534907410 <<<grid 8192 block 128>>> tc:3.61398ms
+```
+
