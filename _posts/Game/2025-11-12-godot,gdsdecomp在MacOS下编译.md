@@ -21,12 +21,17 @@ brew install scons dotnet-sdk
 
 ```bash
  ==> sh misc/scripts/install_vulkan_sdk_macos.sh
-  ==> vi modules/gdsdecomp/SCsub +78
+ ==> vi modules/gdsdecomp/SCsub +78
   ##env_gdsdecomp.Append(CPPDEFINES=["ENABLE_3_X_SCENE_LOADING"])
 scons platform=macos target=template_debug -j4
 ```
 
 
+
+```bash
+./bin/godot.macos.template_debug.arm64
+
+```
 
 
 

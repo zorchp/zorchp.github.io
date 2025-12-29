@@ -21,3 +21,14 @@ warp是SM的基本执行单元，一个block内相邻的32个线程划分为一�
 - bank conflict只发生在同一个warp的不同线程间。
 - 如果多个线程访问shared memory的相同bank的相同address，实际效果是broadcast，非bank conflict。
 - bank conflict只发生在shared memory的读写操作上，global memory的读写操作不会有bank conflict产生。
+
+
+
+
+
+
+
+```mermaid
+
+```
+
