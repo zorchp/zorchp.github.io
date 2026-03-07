@@ -7,8 +7,6 @@ tags: LaTeX TikZ
 
 学习 CUDA 的束内洗牌函数`__shfl_*_sync` 比较感兴趣这里面的示意图怎么绘制的. 下面是用 tikz 的一些方式
 
-
-
 ## __shfl_sync
 
 ```latex
@@ -54,19 +52,15 @@ tags: LaTeX TikZ
 
 > 语法真恶心, 没法直接在 for 里面求值
 
-
-
 <figure>
     <img src="https://cdn.jsdelivr.net/gh/zorchp/blogimage@main//shfl.sync.jpg" alt="">
     <center><figcaption>__shfl_sync 执行情况  width=16</figcaption></center>
 </figure>
 
-
-
 ## __shfl_xor_sync
 
 这里绘制lane_mask 为 1,2,4,8,16 的示意图, 用一个模板来实现(有点元编程的意思)
-
+{% raw %}
 ```latex
 \documentclass[tikz,border=10pt]{standalone}
 \usepackage{tikz}
@@ -102,13 +96,14 @@ tags: LaTeX TikZ
 \end{tikzpicture}
 \end{document}
 ```
+{% endraw %}
 
 ```bash
 for i in {0..4}; do
-	lane_mask=$((2 ** $i))
-	new_file=shfl.$lane_mask.tex
-	cat shfl.xor.tmpl.tex | sed "s#LANE_MASK#${lane_mask}#" >$new_file
-	xelatex $new_file
+ lane_mask=$((2 ** $i))
+ new_file=shfl.$lane_mask.tex
+ cat shfl.xor.tmpl.tex | sed "s#LANE_MASK#${lane_mask}#" >$new_file
+ xelatex $new_file
 done
 ## clear aux file 
 latexmk -c
@@ -125,5 +120,3 @@ latexmk -c
     <img src="https://cdn.jsdelivr.net/gh/zorchp/blogimage@main//image-20251103142825734.png" alt="">
     <center><figcaption>__shfl_xor_sync 执行情况  laneMask=16</figcaption></center>
 </figure>
-
-

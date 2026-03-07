@@ -439,9 +439,9 @@ fi
 
 abs_path=$(readlink -f $1)
 
-if [[ "$abs_path" == $HOME/for_pm* ]]; then
+if [[ "$abs_path" == $HOME/* ]]; then
     link_prefix="http://$(hostname):8226"
-    link_suffix=$(echo $abs_path | sed 's|/home/disk2/pengzongyu/for_pm/||')
+    link_suffix=$(echo $abs_path | sed 's|/home/zorch//||')
 else
     echo "Path does not match any known prefix: $abs_path"
     exit
